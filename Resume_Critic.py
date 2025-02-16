@@ -1,14 +1,16 @@
 from pypdf import PdfReader
 # import pdfplumber
 
-# path = r"C:\Users\kushi\OneDrive\Documents\University\11. Winter 2025\Coop\Kushini Lowe - Resume (Jan 14).pdf"
+path = r"C:\Users\kushi\OneDrive\Documents\University\11. Winter 2025\Coop\Kushini Lowe - Resume (Jan 14).pdf"
 
-path = r"path\to\resume"
+# path = r"path\to\resume"
 reader = PdfReader(path)
 
-page = reader.pages[0]
-text = page.extract_text()
-print(text)
+# page = reader.pages[0]
+# text = page.extract_text()
+# print(text)
+
+print(reader)
 
 
 
