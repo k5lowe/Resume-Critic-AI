@@ -1,33 +1,29 @@
 from pypdf import PdfReader
-# import pdfplumber
+import spacy
+import google.generativeai as genai
+from dotenv import load_dotenv
+import os
 
-path = r"C:\Users\kushi\OneDrive\Documents\University\11. Winter 2025\Coop\Kushini Lowe - Resume (Jan 14).pdf"
+load_dotenv()
 
-# path = r"path\to\resume"
+api_key = os.getenv("GEMINI_API_KEY")
+client = genai.configure(api_key=api_key)
+
+# path = r"C:\Users\kushi\OneDrive\Documents\University\11. Winter 2025\Coop\Kushini Lowe - Resume (Jan 14).pdf"
+path = r"C:\Users\kushi\Downloads\software-engineer-resume-example.pdf"
 reader = PdfReader(path)
-
-# page = reader.pages[0]
-# text = page.extract_text()
-# print(text)
-
-print(reader)
+page = reader.pages[0]
+text = page.extract_text()
 
 
+def resume_sections(resume):
+    model = genai.GenerativeModel("gemini-pro")
+    prompt = f"Find the names of sections in the resume given: {resume}. \
+        For example: Skills,Education,Experience,Projects,Certifications"
+    response = model.generate_content(prompt)
+    return response.text
 
-
-
-
-# def extract_text_from_pdf(pdf_path):
-#     with pdfplumber.open(pdf_path) as pdf:
-#         text = "\n".join(page.extract_text() for page in pdf.pages if page.extract_text())
-#     return text
-
-# resume_text = extract_text_from_pdf(path)
-# print(resume_text)
-
-
-
-
-
-
-
+# Test the API
+prompt = "Find the names of sections in the resume given"
+response = resume_sections(text)
+print(response)
