@@ -1,10 +1,7 @@
 from pypdf import PdfReader
-import spacy
 import google.generativeai as genai
 from dotenv import load_dotenv
 import os
-import re
-
 
 
 
@@ -24,8 +21,8 @@ criteria = {
 }
 
 
-load_dotenv(r"C:\Users\kushi\OneDrive\Documents\Python Projects\Resume_Critic\.env")
-gemini_api_key = os.getenv('API_KEY')                    # REPLACE API_KEY WITH THE NAME OF THE API KEY IN YOUR .env FILE (NOT THE VALUE)
+load_dotenv()
+gemini_api_key = os.getenv('GEMINI_API_KEY')
 
 
 try:
@@ -35,23 +32,16 @@ except Exception as e:
     print(f"An error occurred:\n {e}")
 
 
+
 RESUME_SCORE = 100
-RESUME_FEEBACK = ""
+RESUME_FEEDBACK = ""
 
-
-
-# path = r"C:\Users\kushi\OneDrive\Documents\University\11. Winter 2025\Coop\Kushini Lowe - Resume (Jan 14).pdf"
-# path = r"C:\Users\kushi\OneDrive\Documents\University\11. Winter 2025\Coop\Kushini Lowe - Resume (TEST).pdf"
-path = r"C:\Users\kushi\Downloads\software-engineer-resume-example.pdf"         #REPLACE THIS WITH YOUR OWN RESUME/DUMMY RESUME
-reader = PdfReader(path)
-page = reader.pages[0]
-text = page.extract_text()
 
 
 
 # 1. Length of Resume
 def resume_length(resume):
-    if len(reader.pages) > 1:
+    if len(resume.pages) > 1:
         score = criteria['pages']
         resume_feedback = "Resume is longer than one page"
     else:
@@ -156,8 +146,7 @@ def keywords(resume,keys):
 
 
 
-def user_input_job_description():
-    job_description = input("Please enter a job description: \n")
+def user_input_job_description(job_description):
 
     prompt = f"""Format the following job description {job_description} in a clean, professional, and 
     well-structured manner. Ensure proper use of headings, bullet points, and spacing 
@@ -186,23 +175,24 @@ def keywords_wrapper(job_description):
 
 
 
-def main_function(resume):
-    JD = user_input_job_description()
-    RL = resume_length(text)
-    SE = spelling_errors(text)
-    GH = git_hub(text)
-    LN = linkedin(text)
-    OB = objective(text)
-    KY = keywords(text,keywords_wrapper(JD))
+def main_function(resume_path,job_description):
+    with open(resume_path, 'rb') as f:
+        reader = PdfReader(resume_path)
+        page = reader.pages[0]
+        resume = page.extract_text()
+
+    JD = user_input_job_description(job_description)
+    RL = resume_length(reader)
+    SE = spelling_errors(resume)
+    GH = git_hub(resume)
+    LN = linkedin(resume)
+    OB = objective(resume)
+    KY = keywords(resume,keywords_wrapper(JD))
     
-    RESUME_SCORE = 100 - (RL[1] + SE[1] + GH[1] + LN[1] + OB[1] + KY[1])
-    RESUME_FEEDBACK = f"{RL[0]}\n{SE[0]}\n{GH[0]}\n{LN[0]}\n{OB[0]}\n You are missing these keywords: \n {KY[0]}"
+    RESUME_SCORE = 100 - (RL[1] + SE[1] + GH[1] + LN[1] + OB[1] + int((KY[1])/2))
+    RESUME_FEEDBACK = f"{RL[0]}\n\n{SE[0]}\n\n{GH[0]}\n\n{LN[0]}\n\n{OB[0]}\n\nYou are missing these keywords:\n\n{KY[0]}"
 
-    print(RESUME_FEEDBACK)
-    print()
-    print(RESUME_SCORE)
+    if RESUME_SCORE <= 0 or RESUME_SCORE > 100:
+        RESUME_SCORE = 0
 
-
-
-if __name__ == '__main__':
-    main_function(text)
+    return RESUME_SCORE,RESUME_FEEDBACK
