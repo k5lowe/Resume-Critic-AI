@@ -36,7 +36,7 @@ Technologies:
 
 ## Attributions & Remarks ##
 
-The entirity of this project rested on the kind help of the following websites. As always, ChatGPT proved an immense help and guidance where much time and effort was saved. Much of the "frontend.py" code was written by ChatGPT
+The entirity of this project rested on the kind help of the following websites. As always, ChatGPT proved an immense help and guidance where much time and effort was saved. Much of the "frontend.py" code was modified and guided by ChatGPT
 
 - https://chatgpt.com/
 - https://aistudio.google.com/apikey
