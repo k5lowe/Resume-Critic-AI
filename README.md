@@ -22,12 +22,15 @@ Technologies:
 - Gemini API (for language processing)
 
 
+![alt text](example.png)
+
+
 ## Notes ##
 
-1. Login to Google AI Studio and create a free API key. Copy this key into the .env file and where it says "GEMINI_API_KEY". **Do not** store your key pulicly or share it. 
+1. Login to Google AI Studio and create a free API key. Copy this key into the ```python .env``` file and where it says "GEMINI_API_KEY". **Do not** store your key pulicly or share it. 
    - https://aistudio.google.com/apikey
 2. To launch the streamlit app, run ```python streamlit run frontend.py``` in your bash terminal
-3. Ensure backend.py is in the same directory as frontend.py
+3. Ensure ```python backend.py``` is in the same directory as ```python frontend.py```
 4. It is good practice to install the libraries in a virtual environment (.venv)
 
 
