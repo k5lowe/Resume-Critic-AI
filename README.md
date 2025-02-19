@@ -14,7 +14,7 @@ Features:
 - Formatting Analysis: Checks for proper capitalization, bullet points, verb usage, and more.
 - Feedback & Recommendations: Provides actionable suggestions for improving the resume.
 
-Technology Stack:
+Technologies:
 
 - Python (Backend Processing)
 - Streamlit (Web UI)
@@ -24,9 +24,9 @@ Technology Stack:
 
 ## Notes ##
 
-1. Login to Google AI Studio and create a free API key. Copy this key into the .env file and set "GEMINI_API_KEY" to your key. **Do not** store your key pulicly or share it. 
+1. Login to Google AI Studio and create a free API key. Copy this key into the .env file and where it says "GEMINI_API_KEY". **Do not** store your key pulicly or share it. 
    - https://aistudio.google.com/apikey
-2. To launch the streamlit, run "streamlit run frontend.py" in your bash terminal
+2. To launch the streamlit app, run ```python streamlit run frontend.py``` in your bash terminal
 3. Ensure backend.py is in the same directory as frontend.py
 4. It is good practice to install the libraries in a virtual environment (.venv)
 
